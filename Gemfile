@@ -22,6 +22,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'mongoid', '~>5.1.3'
+gem 'active_model_serializers', '~> 0.9'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
