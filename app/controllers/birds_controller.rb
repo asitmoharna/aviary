@@ -27,6 +27,17 @@ class BirdsController < ApplicationController
     end
   end
 
+  def destroy
+    handle_exception do
+      bird = Bird.find(params[:id])
+      if bird.destroy
+        render nothing: true, status: :ok
+      else
+        render json: { error: 'Unable to destroy' }, status: :unprocessble_entity
+      end
+    end
+  end
+
   private
 
   def new_bird_params

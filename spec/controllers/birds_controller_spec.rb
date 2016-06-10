@@ -78,4 +78,23 @@ RSpec.describe BirdsController, type: :controller do
       end
     end
   end
+  describe '#destroy' do
+    context 'when bird is not found with the id' do
+      it 'returns 404' do
+        delete :destroy, id: 'somenonexistingid'
+        expect(response.code).to eq('404')
+      end
+    end
+    context 'when bird is found with the id' do
+      before do
+        time_now = Time.parse('2016-01-01 00:00:00 UTC')
+        expect(Time.zone).to receive(:now).and_return(time_now)
+      end
+      it 'destroys the bird' do
+        bird = FactoryGirl.create(:bird, name: 'Pigeon', family: 'Columba', continents: ['Asia'], visible: true)
+        delete :destroy, id: bird.id.to_s
+        expect(response.code).to eq('200')
+      end
+    end
+  end
 end
