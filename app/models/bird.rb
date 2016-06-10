@@ -10,4 +10,6 @@ class Bird
   validates :name, :family, presence: true
   validates :continents, presence: true,
                          length: { minimum: 1 }
+
+  scope :visible, -> { where visible: true }
 end

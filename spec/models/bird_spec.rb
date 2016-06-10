@@ -41,4 +41,17 @@ RSpec.describe Bird, type: :model do
       expect(bird.errors).to include(:continents)
     end
   end
+
+  describe '.visible' do
+    let(:visible_birds) { FactoryGirl.create_list(:bird, 3, visible: true) }
+    let(:invisible_birds) { FactoryGirl.create_list(:bird, 2, visible: false) }
+    before do
+      #FIXME For some reason the database cleaner is not cleaning the tables
+      Bird.destroy_all
+    end
+    it 'lists visible birds' do
+      expect(Bird.visible).to eq(visible_birds)
+      expect(Bird.visible).not_to eq(invisible_birds)
+    end
+  end
 end
