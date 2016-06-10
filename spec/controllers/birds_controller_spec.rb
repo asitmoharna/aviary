@@ -53,4 +53,29 @@ RSpec.describe BirdsController, type: :controller do
       end
     end
   end
+  describe '#show' do
+    context 'when bird is not found with the id' do
+      it 'returns 404' do
+        get :show, id: 'somenonexistingid'
+        expect(response.code).to eq('404')
+      end
+    end
+    context 'when bird is found with the id' do
+      before do
+        time_now = Time.parse('2016-01-01 00:00:00 UTC')
+        expect(Time.zone).to receive(:now).and_return(time_now)
+      end
+      it 'returns the bird object with status code 200' do
+        bird = FactoryGirl.create(:bird, name: 'Pigeon', family: 'Columba', continents: ['Asia'], visible: true)
+        get :show, id: bird.id.to_s
+        response_body = JSON.parse(response.body)
+        expect(response.code).to eq('200')
+        expect(response_body['id']).to eq(bird.id.to_s)
+        expect(response_body['name']).to eq('Pigeon')
+        expect(response_body['family']).to eq('Columba')
+        expect(response_body['continents']).to eq(['Asia'])
+        expect(response_body['visible']).to eq(true)
+      end
+    end
+  end
 end

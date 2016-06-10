@@ -20,6 +20,13 @@ class BirdsController < ApplicationController
     end
   end
 
+  def show
+    handle_exception do
+      bird = Bird.find(params[:id])
+      render json: bird, status: :ok
+    end
+  end
+
   private
 
   def new_bird_params
