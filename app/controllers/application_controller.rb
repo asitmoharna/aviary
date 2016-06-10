@@ -11,6 +11,8 @@ class ApplicationController < ActionController::Base
     render json: { error: ex0.problem, code: 404 }, status: :not_found
   rescue ArgumentError => ex1
     render json: { error: ex1.message, code: 422 }, status: :unprocessable_entity
+  rescue Mongoid::Errors::InvalidValue => ex1
+    render json: { error: ex1.message, code: 400 }, status: :bad_request
   rescue StandardError => ex2
     render json: { error: ex2.message, code: 500 }, status: :internal_error
   end
